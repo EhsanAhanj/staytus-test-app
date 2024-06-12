@@ -1,0 +1,19 @@
+{
+  "name": "tango",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/tango/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/tango",
+        "main": "apps/tango/src/index.ts",
+        "tsConfig": "apps/tango/tsconfig.lib.json",
+        "assets": ["apps/tango/*.md"]
+      }
+    }
+  }
+}
