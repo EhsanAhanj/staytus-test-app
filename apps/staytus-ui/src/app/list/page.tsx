@@ -2,8 +2,7 @@
 
 import { ListItem } from '@staytus/base';
 import { useTango } from '@staytus/tango';
-import { Film, Planet, Response, Specie } from '@staytus/types';
-import { useFetch, useFetchAll } from '@staytus/utils';
+import { Planet, Response, Specie } from '@staytus/types';
 import axios from 'axios';
 import { useEffect } from 'react';
 
