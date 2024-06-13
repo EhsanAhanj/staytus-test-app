@@ -1,9 +1,9 @@
 'use client';
 
-import { ListItem } from '@staytus/base';
+import { PlanetCard } from '@staytus/base';
 import { useTango } from '@staytus/tango';
-import { Planet, Response, Specie } from '@staytus/types';
-import axios from 'axios';
+import { Film, Planet, Specie } from '@staytus/types';
+import { fetchAll } from '@staytus/utils';
 import { useEffect } from 'react';
 
 export default function Index() {
@@ -11,18 +11,7 @@ export default function Index() {
 
   async function planetsWithPeoplesWhoHasReptile() {
     let result: Planet[] = [];
-    const fetchAll = async (url: string, result: any[]) => {
-      const response = await axios.get<Response<any>>(url);
 
-      response.data.results.forEach((element) => {
-        result.push(element);
-      });
-
-      if (response.data.next) {
-        await fetchAll(response.data.next, result);
-      }
-      return result;
-    };
     const planets: Planet[] = [];
     const species: Specie[] = [];
     await Promise.all([
@@ -33,20 +22,21 @@ export default function Index() {
         (el) => el.classification === 'reptile'
       );
 
-      const allPeopleWithReptile = new Set(
+      const allFilmsWithReptile = new Set(
         hasReptile.reduce(
           (accumulator: string[], currentValue) => [
             ...accumulator,
-            ...currentValue.people,
+            ...currentValue.films,
           ],
           []
         )
       );
 
       result = planets.filter((planet) =>
-        planet.residents.some((el) => allPeopleWithReptile.has(el))
+        planet.films.some((el) => allFilmsWithReptile.has(el))
       );
     });
+
     return result;
   }
   useEffect(() => {
@@ -58,10 +48,18 @@ export default function Index() {
       console.log(error);
     }
   }, []);
+  useEffect(() => {
+    const films: Film[] = [];
+    fetchAll('https://swapi.dev/api/films', films).then((el) =>
+      dispatch({ type: 'UPDATE', payload: { films } })
+    );
+  }, []);
 
   return (
-    <div className="flex gap-4 h-screen flex-col w-screen items-center justify-center overflow-hidden bg-blue-100">
-      <ListItem />
+    <div className="flex gap-4 min-h-screen flex-col w-screen items-center justify-center bg-[#18181A] p-2 md:px-[15%] overflow-x-hidden">
+      {(state.planet as Planet[])?.map((el) => (
+        <PlanetCard {...el} key={el.name} />
+      ))}
     </div>
   );
 }
