@@ -15,7 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@staytus/tango": ["apps/tango/src/index.ts"]
+      "@staytus/tango": ["apps/tango/src/index.ts"],
+      "@staytus/utils": ["apps/staytus-ui/src/app/utils/index.ts"],
+      "@staytus/base": ["apps/staytus-ui/src/app/components/index.ts"],
+      "@staytus/types": ["apps/staytus-ui/src/app/types/index.d.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
